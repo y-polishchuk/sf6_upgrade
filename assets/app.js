@@ -13,3 +13,4 @@ import './bootstrap';
 
 // activates collapse functionality
 import { Collapse } from 'bootstrap';
+

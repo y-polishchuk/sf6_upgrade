@@ -6,60 +6,43 @@ use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Serializer\Annotation\Groups;
 
-/**
- * @ORM\Entity(repositoryClass=UserRepository::class)
- *
- * @ORM\Table(name="`user`")
- */
-class User implements UserInterface
+#[ORM\Table(name: '`user`')]
+#[ORM\Entity(repositoryClass: UserRepository::class)]
+class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
-    /**
-     * @ORM\Id
-     *
-     * @ORM\GeneratedValue
-     *
-     * @ORM\Column(type="integer")
-     */
-    private $id;
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column()]
+    private ?int $id = null;
 
-    /**
-     * @ORM\Column(type="string", length=180, unique=true)
-     */
+    #[ORM\Column(length: 180, unique: true)]
     private ?string $email = null;
 
-    /**
-     * @ORM\Column(type="json")
-     */
+    #[ORM\Column(type: 'json')]
     private array $roles = [];
 
     /**
-     * @var string|null The hashed password
-     *
-     * @ORM\Column(type="string")
+     * The hashed password
      */
+    #[ORM\Column()]
     private ?string $password = null;
 
     /**
-     * @var string Non-mapped field
+     * Non-mapped field
      */
     private ?string $plainPassword = null;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
+    #[ORM\Column()]
     private ?string $firstName = null;
 
-    /**
-     * @ORM\OneToMany(targetEntity=Question::class, mappedBy="owner")
-     */
-    private \Doctrine\Common\Collections\ArrayCollection|array $questions;
+    #[ORM\OneToMany(targetEntity: Question::class, mappedBy: 'owner')]
+    private Collection $questions;
 
-    /**
-     * @ORM\Column(type="boolean")
-     */
+    #[ORM\Column()]
     private bool $isVerified = false;
 
     public function __construct()
@@ -90,6 +73,16 @@ class User implements UserInterface
      * @see UserInterface
      */
     public function getUsername(): string
+    {
+        return (string) $this->email;
+    }
+
+    /**
+     * A visual identifier that represents this user.
+     *
+     * @see UserInterface
+     */
+    public function getUserIdentifier(): string
     {
         return (string) $this->email;
     }
@@ -200,9 +193,7 @@ class User implements UserInterface
         return $this;
     }
 
-    /**
-     * @Groups("user:read")
-     */
+    #[Groups('user:read')]
     public function getAvatarUri(int $size = 32): string
     {
         return 'https://ui-avatars.com/api/?'.http_build_query([

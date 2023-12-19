@@ -3,11 +3,11 @@
 namespace App\Factory;
 
 use App\Entity\User;
-use Zenstruck\Foundry\Proxy;
 use App\Repository\UserRepository;
-use Zenstruck\Foundry\ModelFactory;
-use Zenstruck\Foundry\RepositoryProxy;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use Zenstruck\Foundry\ModelFactory;
+use Zenstruck\Foundry\Proxy;
+use Zenstruck\Foundry\RepositoryProxy;
 
 /**
  * @extends ModelFactory<User>

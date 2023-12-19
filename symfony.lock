@@ -155,9 +155,6 @@
     "ocramius/package-versions": {
         "version": "1.4.2"
     },
-    "pagerfanta/pagerfanta": {
-        "version": "v2.7.2"
-    },
     "phar-io/manifest": {
         "version": "2.0.3"
     },
